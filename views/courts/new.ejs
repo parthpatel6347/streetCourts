@@ -1,0 +1,58 @@
+<% layout('./layouts/boilerplate') -%>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="card-title text-center">Add New Court</h4>
+                <form action="/courts" method="POST" class="needs-validation" enctype="multipart/form-data"
+                    novalidate>
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Title</label>
+                        <input class="form-control" type="text" id="title" name="court[title]" required>
+                        <div class="invalid-feedback">
+                            This field cannot be left blank.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="location">Location</label>
+                        <input class="form-control" type="text" id="location" name="court[location]" required>
+                        <div class="invalid-feedback">
+                            This field cannot be left blank.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Add images</label>
+                        <input class="form-control" type="file" id="formFileMultiple" name="image" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Entry Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="price-label">$</span>
+                            <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                                aria-describedby="price-label" name="court[price]" required>
+                            <div class="invalid-feedback">
+                                This field cannot be left blank.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" type="text" id="description" name="court[description]"
+                            required></textarea>
+                        <div class="invalid-feedback">
+                            This field cannot be left blank.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-success">Add Court</button>
+                    </div>
+                </form>
+                <div class="mb-3">
+                    <a href="/courts">All courts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

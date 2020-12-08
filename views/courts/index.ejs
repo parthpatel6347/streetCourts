@@ -1,0 +1,39 @@
+<% layout('./layouts/boilerplate') -%>
+
+<div id="cluster-map" class="mb-5"></div>
+
+    <ul>
+        <% for( court of foundCourts) { %>
+        <div class="card mb-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <% if(court.images.length){ %>
+                    <img src="<%= court.images[0].url %> " class="img-fluid">
+                    <% } else {%>
+                    <img src="https://res.cloudinary.com/parthpatel6347/image/upload/v1607086966/starGaze/wzvatyk4zqzg3logfqwq.jpg"
+                        alt="">
+                    <% } %>
+                </div>
+                <div class="col-md-8">
+                    <h5 class="card-title mt-2"><%= court.title %></h5>
+                    <p class="card-text"><%= court.description %></p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <%= court.location %>
+                        </small>
+                    </p>
+                    <a href="/courts/<%= court._id %>" class="btn btn-primary">View <%= court.title %></a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </ul>
+
+
+
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN %>'
+    const courts = { features: <%- JSON.stringify(foundCourts) %>}
+</script>
+
+<script src="/scripts/clusterMap.js"></script>
