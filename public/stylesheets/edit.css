@@ -1,0 +1,32 @@
+
+body {
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url(https://images.unsplash.com/photo-1531259769599-1a298417f81d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=968&q=80);
+    background-size: cover;
+    background-position: center;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+
+}
+
+a img{
+    height: 1rem;
+    margin-bottom: .2rem;
+}
+
+a:hover{
+    color: black;
+}
+
+.back{
+    opacity: 50%;
+}
+
+.back:hover{
+    color: black;
+    opacity: 100%;
+}

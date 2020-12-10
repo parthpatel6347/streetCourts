@@ -5,7 +5,7 @@ mapboxgl.accessToken = mapToken;
 
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+    style: 'mapbox://styles/mapbox/dark-v10', // stylesheet location
     center: foundCourt.geometry.coordinates, // starting position [lng, lat]
     zoom: 7 // starting zoom
 });

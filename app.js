@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 app.use(mongoSanitize());
 app.use(helmet({contentSecurityPolicy:false}));
 
-mongoose.connect('mongodb://localhost:27017/starGazeDB', {
+mongoose.connect('mongodb://localhost:27017/streetCourtsDB', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

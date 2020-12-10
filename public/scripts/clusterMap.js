@@ -36,20 +36,24 @@ map.on('load', function () {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#51bbd6',
-                100,
-                '#f1f075',
-                750,
-                '#f28cb1'
+                '#4ea8de',
+                10,
+                '#48bfe3',
+                30,
+                '#56cfe1',
+                60,
+                '#64dfdf'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                20,
-                100,
+                10,
+                10,
+                15,
                 30,
-                750,
-                40
+                20,
+                60,
+                30
             ]
         }
     });
@@ -62,7 +66,7 @@ map.on('load', function () {
         layout: {
             'text-field': '{point_count_abbreviated}',
             'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-            'text-size': 12
+            'text-size': 12,
         }
     });
 
@@ -72,7 +76,7 @@ map.on('load', function () {
         source: 'courts',
         filter: ['!', ['has', 'point_count']],
         paint: {
-            'circle-color': '#11b4da',
+            'circle-color': '#5390d9',
             'circle-radius': 4,
             'circle-stroke-width': 1,
             'circle-stroke-color': '#fff'

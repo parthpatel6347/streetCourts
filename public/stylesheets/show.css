@@ -1,0 +1,6 @@
+.carousel-item img{
+    height: 400px;
+    max-height: 400px;
+    width: auto;
+    object-fit: contain;
+}

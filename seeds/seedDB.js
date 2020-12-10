@@ -1,10 +1,15 @@
 // jshint esversion:9
 
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
+const cloudinary = require('cloudinary').v2;
 const mongoose = require('mongoose');
 const cities = require('./cities');
-const { descriptors, places } = require('./titleseeds');
 const Court = require('../models/court');
-const { authorize } = require('passport');
+const faker = require('faker');
+
 
 mongoose.connect('mongodb://localhost:27017/streetCourtsDB', {
     useNewUrlParser: true,
@@ -22,15 +27,33 @@ mongoose.connect('mongodb://localhost:27017/streetCourtsDB', {
 
 const randomSample = array => array[Math.floor(Math.random() * array.length)];
 
+const getImages = async () => {
+    const imageList = await cloudinary.search
+    .expression('folder:streetCourts')
+    .sort_by('public_id','desc')
+    .max_results(100)
+    .execute()
+    const newList = imageList.resources.map(img => ({ url: img.url, filename: img.filename }))
+    return newList;
+}
+
 
 const seedDB = async () => {
     await Court.deleteMany({});
+    const imagesArray = await getImages();
     for (i = 0; i <= 450; i++) {
+        const title = faker.address.streetAddress();
+        
         const rand = Math.floor(Math.random() * 1000);
-        const randPrice = Math.floor(Math.random() * 20) + 10;
+        
+        const randPrice = Math.floor(Math.random() * 10) + 5;
+
+        const randDescription = Math.floor(Math.random() * 2) + 1;
+        const description = faker.lorem.paragraph(randDescription);
+        
         const seedCourts = new Court({
             location: `${cities[rand].city}, ${cities[rand].state}`,
-            title: `${randomSample(descriptors)} ${randomSample(places)}`,
+            title: title,
             geometry:{
                 type : "Point",
                 coordinates: [ 
@@ -39,18 +62,12 @@ const seedDB = async () => {
                 ]
             },
             images: [
-                {
-                    url: 'https://res.cloudinary.com/parthpatel6347/image/upload/v1607086966/starGaze/wjw8yxastojhm1qquwo8.jpg',
-                    filename: 'starGaze/wjw8yxastojhm1qquwo8'
-                },
-                {
-                    url: 'https://res.cloudinary.com/parthpatel6347/image/upload/v1607086966/starGaze/wzvatyk4zqzg3logfqwq.jpg',
-                    filename: 'starGaze/wzvatyk4zqzg3logfqwq'
-                }
+                randomSample(imagesArray),
+                randomSample(imagesArray)
             ],
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, magni cumque quaerat atque aspernatur inventore harum est reiciendis recusandae adipisci non blanditiis voluptatum quam, nam similique illum cum libero fuga.',
+            description: description,
             price: randPrice,
-            author: '5fc8df095056ed40f0487272'
+            author: '5fd11254b0e10852845e4ff7'
 
         });
         await seedCourts.save();

@@ -1,14 +1,15 @@
 <% layout('./layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/new.css">
 
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <div class="card shadow">
+        <div class="card shadow mb-4">
             <div class="card-body">
                 <h4 class="card-title text-center">Edit Court</h4>
                 <form action="/courts/<%= foundCourt._id %>?_method=PUT" method="POST"
                     enctype="multipart/form-data" class="needs-validation" novalidate>
                     <div class="mb-3">
-                        <label class="form-label" for="title">Title</label>
+                        <label class="form-label" for="title">Street Name</label>
                         <input class="form-control" type="text" id="title" name="court[title]"
                             value="<%= foundCourt.title %>" required>
                         <div class="invalid-feedback">
@@ -62,8 +63,8 @@
                         <button class="btn btn-info">Update</button>
                     </div>
                 </form>
-                <div class="mb-3">
-                    <a href="/courts/<%= foundCourt._id %> ">Back</a>
+                <div class="back mb-3">
+                    <a href="/courts/<%= foundCourt._id %> "><img src="/img/left-arrow.png"> Back</a>
                 </div>
             </div>
         </div>

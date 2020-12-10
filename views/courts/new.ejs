@@ -1,4 +1,5 @@
 <% layout('./layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/new.css">
 
 <div class="row">
     <div class="col-md-6 offset-md-3">
@@ -8,7 +9,7 @@
                 <form action="/courts" method="POST" class="needs-validation" enctype="multipart/form-data"
                     novalidate>
                     <div class="mb-3">
-                        <label class="form-label" for="title">Title</label>
+                        <label class="form-label" for="title">Street Name</label>
                         <input class="form-control" type="text" id="title" name="court[title]" required>
                         <div class="invalid-feedback">
                             This field cannot be left blank.
@@ -49,8 +50,8 @@
                         <button class="btn btn-success">Add Court</button>
                     </div>
                 </form>
-                <div class="mb-3">
-                    <a href="/courts">All courts</a>
+                <div class="mb-3 back">
+                    <a href="/courts"><img src="/img/left-arrow.png"> All Courts</a>
                 </div>
             </div>
         </div>

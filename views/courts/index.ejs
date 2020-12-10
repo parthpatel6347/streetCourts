@@ -1,16 +1,19 @@
 <% layout('./layouts/boilerplate') -%>
 
+<link rel="stylesheet" href="/stylesheets/index.css">
+
+
 <div id="cluster-map" class="mb-5"></div>
 
-    <ul>
+    <ul class="px-5">
         <% for( court of foundCourts) { %>
-        <div class="card mb-3">
+        <div class="card mb-4">
             <div class="row">
                 <div class="col-md-4">
                     <% if(court.images.length){ %>
-                    <img src="<%= court.images[0].url %> " class="img-fluid">
+                    <img src="<%= court.images[0].url %> " class="img-fluid cover-img">
                     <% } else {%>
-                    <img src="https://res.cloudinary.com/parthpatel6347/image/upload/v1607086966/starGaze/wzvatyk4zqzg3logfqwq.jpg"
+                    <img class="img-fluid cover-img" src="https://res.cloudinary.com/parthpatel6347/image/upload/v1607541459/streetCourts/sergio-souza-Teuqf46xdOQ-unsplash_nio5de.jpg"
                         alt="">
                     <% } %>
                 </div>
@@ -22,7 +25,7 @@
                             <%= court.location %>
                         </small>
                     </p>
-                    <a href="/courts/<%= court._id %>" class="btn btn-primary">View <%= court.title %></a>
+                    <a href="/courts/<%= court._id %>" class="btn btn-primary">View court</a>
                 </div>
             </div>
         </div>
