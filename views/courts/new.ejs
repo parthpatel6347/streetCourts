@@ -24,7 +24,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Add images</label>
-                        <input class="form-control" type="file" id="formFileMultiple" name="image" multiple>
+                        <input class="form-control" type="file" id="formFileMultiple" name="image" multiple required>
+                        <div class="invalid-feedback">
+                            This field cannot be left blank.
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="price">Entry Price</label>
