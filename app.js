@@ -8,14 +8,15 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const flash = require("connect-flash");
+const flash = require("connect-flash"); //flash message middleware
 const methodOverride = require("method-override"); //to add put,patch and delete requests
 const ejsMate = require("ejs-mate");
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize"); // security - prevents MongoDB operator injection
+const helmet = require("helmet"); //security by setting various http headers
 
 const User = require("./models/user");
 
@@ -32,15 +33,17 @@ app.engine("ejs", ejsMate);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public"))); //serve static files
-app.use(methodOverride("_method"));
+app.use(methodOverride("_method")); //to add put, patch and delete requests. (Check form in ejs files)
 app.use(
   session({
+    name: "ssession",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      //secure:true,           //only allows cookies on https (for production only, will not work in development since localhost is not https)
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //one week (milliseconds to week)
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
@@ -54,7 +57,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//flash middleware
+//to make user data, flash data(success or error) to be always available in ejs files
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
@@ -63,8 +66,9 @@ app.use((req, res, next) => {
 });
 
 app.use(mongoSanitize());
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({ contentSecurityPolicy: false })); //contentsecuritypolicy restricts content from other websites such as unsplash.com. It needs to be given options to allow content from specific websites. Turned off for our purposes
 
+//connection to mongo database
 mongoose
   .connect("mongodb://localhost:27017/streetCourtsDB", {
     useNewUrlParser: true,
@@ -83,6 +87,7 @@ mongoose
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+//App routes
 app.use("/courts", courtRoutes);
 app.use("/courts/:id/review", reviewsRoutes);
 app.use("/", authRoutes);
@@ -91,10 +96,12 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+//For any URL other than above, gives 404 error
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page not found.", 404));
 });
 
+//error handling
 app.use((err, req, res, next) => {
   const { status = 500 } = err;
   if (!err.message) {

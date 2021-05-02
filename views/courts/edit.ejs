@@ -51,12 +51,13 @@
                     </div>
                     <div class="mb-3">
                         <% foundCourt.images.forEach((img,i)=>{ %>
-                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
-                        <div class="form-check-inline">
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt=""> <!-- uses virtual thumbnail propery on Image Schema-->
+                        <div class="form-check-inline mr-0">
+                            <!--Adds filename of checked images in an array -->
                             <input type="checkbox" name="deleteImages[]" id="image-<%= i %> "
                                 value="<%= img.filename %>">
                         </div>
-                        <label for="image-<%= i %> ">Delete</label>
+                        <label class="mr-3" for="image-<%= i %> ">Delete</label>
                         <% }) %>
                     </div>
                     <div class="mb-3">

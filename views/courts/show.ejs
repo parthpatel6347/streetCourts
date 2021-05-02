@@ -1,6 +1,6 @@
 <% layout('./layouts/boilerplate') -%>
-<link rel="stylesheet" href="/stylesheets/stars.css">
-<link rel="stylesheet" href="/stylesheets/show.css">
+<link rel="stylesheet" href="/stylesheets/stars.css"> <!--styles for review stars-->
+<link rel="stylesheet" href="/stylesheets/show.css"> 
 
 <div class="row">
     <div class="col-6">
@@ -8,11 +8,12 @@
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <% foundCourt.images.forEach((img,i)=>{ %>
-                    <div class="carousel-item <%= i===0 && 'active'%>">
+                    <div class="carousel-item <%= i===0 && 'active'%>"> <!--sets the first image as active-->
                         <img src="<%=img.url%>" class="d-block w-100" alt="">
                     </div>
                     <% }) %>
                 </div>
+                <!--shows carousel next and prev buttons only if there are more than one images-->
                 <% if(foundCourt.images.length>1) { %>
                 <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -34,10 +35,11 @@
                 <li class="list-group-item text-muted"><%= foundCourt.location%></li>
                 <li class="list-group-item text-muted">Added by: <%= foundCourt.author.username%></li>
             </ul>
+            <!-- If there is a logged in user and the logged in user's id is equal to id of the court author, only then show the edit and delete buttons-->
             <% if(currentUser && foundCourt.author.equals(currentUser._id)){ %>
             <div class="card-body">
                 <a class="card-link btn btn-info" href="/courts/<%= foundCourt._id %>/edit ">Edit</a>
-                <form class="d-inline" action="/courts/<%= foundCourt._id %>?_method=DELETE" method="POST">
+                <form class="d-inline" action="/courts/<%= foundCourt._id %>?_method=DELETE" method="POST"> <!--method override used-->
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
@@ -45,7 +47,8 @@
         </div>
     </div>
     <div class="col-6">
-        <div id="map" class="mb-4"></div>
+        <div id="map" class="mb-4"></div> <!--map box-->
+        <!--review form, shown only if there is a logged in user-->
         <% if(currentUser) { %>
         <div>
             <h6 class="mb-3">Leave a review:</h6>
@@ -79,6 +82,7 @@
             </form>
         </div>
         <% } %>
+        <!--Loops over all reviews and creates a card for each-->
         <% for (let review of foundCourt.reviews){ %>
         <div class="card mb-3">
             <div class="card-body">
@@ -87,6 +91,7 @@
                     Rated: <%= review.rating %> stars
                 </p>
                 <p class="card-text"><%= review.body %></p>
+                <!--if logged in user the author of the review, then show delete review button-->
                 <% if(currentUser && review.author.equals(currentUser._id)){ %>
                 <form action="/courts/<%= foundCourt._id %>/review/<%= review._id %>?_method=DELETE"
                     method="POST">

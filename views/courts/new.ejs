@@ -7,10 +7,10 @@
             <div class="card-body">
                 <h4 class="card-title text-center">Add New Court</h4>
                 <form action="/courts" method="POST" class="needs-validation" enctype="multipart/form-data"
-                    novalidate>
+                    novalidate>  <!-- enctype multipart/formdata for uploading images/files-->
                     <div class="mb-3">
                         <label class="form-label" for="title">Street Name</label>
-                        <input class="form-control" type="text" id="title" name="court[title]" required>
+                        <input class="form-control" type="text" id="title" name="court[title]" required> <!-- name is such that when body is parsed, 'title' will be a key in a court object and form data would be the value. court = {title : "form data"}-->
                         <div class="invalid-feedback">
                             This field cannot be left blank.
                         </div>
@@ -54,7 +54,7 @@
                     </div>
                 </form>
                 <div class="mb-3 back">
-                    <a href="/courts"><img src="/img/left-arrow.png"> All Courts</a>
+                    <a href="/courts"><img src="/img/left-arrow.png"> All Courts</a> <!--returns to index page-->
                 </div>
             </div>
         </div>
