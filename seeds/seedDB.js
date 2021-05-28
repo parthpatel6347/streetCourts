@@ -10,8 +10,11 @@ const cities = require("./cities");
 const Court = require("../models/court");
 const faker = require("faker");
 
+const dbUrl =
+  process.env.DATABASE_URL || "mongodb://localhost:27017/streetCourtsDB";
+
 mongoose
-  .connect("mongodb://localhost:27017/streetCourtsDB", {
+  .connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -62,7 +65,7 @@ const seedDB = async () => {
       images: [randomSample(imagesArray), randomSample(imagesArray)],
       description: description,
       price: randPrice,
-      author: "60b0854ab7b04a4910135c20",
+      author: "60b099fdacca1c001534ab99",
     });
     await seedCourts.save();
   }
