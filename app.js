@@ -130,6 +130,8 @@ app.use((err, req, res, next) => {
   res.status(status).render("error", { err });
 });
 
-app.listen("3000", () => {
-  console.log("streetCourts server started on port 3000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`streetCourts server started on port ${port}`);
 });
