@@ -8,6 +8,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const MongoStore = require("connect-mongo"); //for storing session on mongo
 const flash = require("connect-flash"); //flash message middleware
 const methodOverride = require("method-override"); //to add put,patch and delete requests
 const ejsMate = require("ejs-mate");
@@ -27,17 +28,56 @@ const courtRoutes = require("./routes/courts");
 const reviewsRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
 
+//connection to mongo database
+
+const dbUrl =
+  process.env.DATABASE_URL || "mongodb://localhost:27017/streetCourtsDB";
+mongoose
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log("Connected to Mongo server");
+  })
+  .catch((err) => {
+    console.log("Mongo Connection error");
+    console.log(err);
+  });
+
 const app = express();
 
 app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public"))); //serve static files
 app.use(methodOverride("_method")); //to add put, patch and delete requests. (Check form in ejs files)
+app.use(mongoSanitize({ replaceWith: "_" }));
+
+//for storing session on Mongo
+
+const secret = process.env.SESSION_SECRET || "reallybadsecret";
+
+const storeSession = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret,
+  touchAfter: 24 * 60 * 60,
+});
+
+//managing error for mongo session store
+storeSession.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
 app.use(
   session({
-    name: "ssession",
-    secret: process.env.SESSION_SECRET,
+    store: storeSession, //session store on mongo
+    name: "session",
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -65,27 +105,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(mongoSanitize());
 app.use(helmet({ contentSecurityPolicy: false })); //contentsecuritypolicy restricts content from other websites such as unsplash.com. It needs to be given options to allow content from specific websites. Turned off for our purposes
-
-//connection to mongo database
-mongoose
-  .connect("mongodb://localhost:27017/streetCourtsDB", {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    console.log("Connected to Mongo server");
-  })
-  .catch((err) => {
-    console.log("Mongo Connection error");
-    console.log(err);
-  });
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 
 //App routes
 app.use("/courts", courtRoutes);
