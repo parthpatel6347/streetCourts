@@ -28,6 +28,8 @@ const courtRoutes = require("./routes/courts");
 const reviewsRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
 
+var favicon = require("serve-favicon");
+
 //connection to mongo database
 
 const dbUrl =
@@ -104,6 +106,8 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.use(helmet({ contentSecurityPolicy: false })); //contentsecuritypolicy restricts content from other websites such as unsplash.com. It needs to be given options to allow content from specific websites. Turned off for our purposes
 
